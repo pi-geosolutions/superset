@@ -43,7 +43,7 @@ export default function FacePile({ users, maxCount = 4 }: FacePileProps) {
         const uniqueKey = `${id}-${first_name}-${last_name}`;
         const color = getRandomColor(uniqueKey, colorList);
         const avatarUrl = isFeatureEnabled(FeatureFlag.SlackEnableAvatars)
-          ? `/api/v1/user/${id}/avatar.png`
+          ? ensureBasePath(`/api/v1/user/${id}/avatar.png`)
           : undefined;
         return (
           <Tooltip key={name} title={name} placement="top">
