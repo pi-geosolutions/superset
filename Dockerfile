@@ -32,6 +32,11 @@ ENV BUILD_TRANSLATIONS=${BUILD_TRANSLATIONS}
 ARG DEV_MODE="false"           # Skip frontend build in dev mode
 ENV DEV_MODE=${DEV_MODE}
 
+ARG ASSET_BASE_URL
+ARG BASE_PATH
+ENV ASSET_BASE_URL=${ASSET_BASE_URL:-} \
+    BASE_PATH=${BASE_PATH:-}
+
 COPY docker/ /app/docker/
 # Arguments for build configuration
 ARG NPM_BUILD_CMD="build"
@@ -95,6 +100,11 @@ ARG BUILD_TRANSLATIONS="false" # Include translations in the final build
 ENV BUILD_TRANSLATIONS=${BUILD_TRANSLATIONS}
 ARG DEV_MODE="false"           # Skip frontend build in dev mode
 ENV DEV_MODE=${DEV_MODE}
+
+ARG ASSET_BASE_URL
+ARG BASE_PATH
+ENV ASSET_BASE_URL=${ASSET_BASE_URL:-} \
+    BASE_PATH=${BASE_PATH:-}
 
 ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
