@@ -36,21 +36,19 @@ x-environ-base-path: &superset-base-path
 # Set the following variables if you are running superset under a prefixed path.
 # Also set the value in the nginx.conf file
   ASSET_BASE_URL: ''
-  BASE_PATH: ''
+  BASE_PATH: '/analytics'
 x-common-build: &common-build
   args:
     <<: *superset-base-path
     PY_VER: 3.10-slim-bookworm
     DEV_MODE: "true"
+    INCLUDE_CHROMIUM: ${INCLUDE_CHROMIUM:-false}
+    INCLUDE_FIREFOX: ${INCLUDE_FIREFOX:-false}
+    BUILD_TRANSLATIONS: ${BUILD_TRANSLATIONS:-false}
   context: .
   target: ${SUPERSET_BUILD_TARGET:-dev} # can use `dev` (default) or `lean`
   cache_from:
     - apache/superset-cache:3.10-slim-bookworm
-  args:
-    DEV_MODE: "true"
-    INCLUDE_CHROMIUM: ${INCLUDE_CHROMIUM:-false}
-    INCLUDE_FIREFOX: ${INCLUDE_FIREFOX:-false}
-    BUILD_TRANSLATIONS: ${BUILD_TRANSLATIONS:-false}
 
 services:
   nginx:
