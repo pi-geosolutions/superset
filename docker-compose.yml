@@ -36,7 +36,7 @@ x-environ-base-path: &superset-base-path
 # Set the following variables if you are running superset under a prefixed path.
 # Also set the value in the nginx.conf file
   ASSET_BASE_URL: ''
-  BASE_PATH: '/analytics'
+  BASE_PATH: '/dash'
 x-common-build: &common-build
   args:
     <<: *superset-base-path
@@ -61,6 +61,7 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./superset/static:/usr/share/nginx/html/dash/static
 
   redis:
     image: redis:7
@@ -95,7 +96,7 @@ services:
     build:
       <<: *common-build
     container_name: superset_app
-    command: ["/app/docker/docker-bootstrap.sh", "app"]
+    command: ["/app/docker/docker-bootstrap.sh", "app-gunicorn"]
     restart: unless-stopped
     ports:
       - 8088:8088
@@ -105,8 +106,10 @@ services:
     depends_on: *superset-depends-on
     volumes: *superset-volumes
     environment:
-      <<: *superset-base-path
+      # <<: *superset-base-path
       CYPRESS_CONFIG: "${CYPRESS_CONFIG:-}"
+    healthcheck:
+      disable: true
 
   superset-websocket:
     container_name: superset_websocket
