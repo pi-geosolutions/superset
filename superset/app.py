@@ -18,6 +18,9 @@
 import logging
 import os
 from typing import Optional
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from werkzeug.wrappers import Response
+
 
 from flask import Flask
 
@@ -28,6 +31,10 @@ logger = logging.getLogger(__name__)
 
 def create_app(superset_config_module: Optional[str] = None) -> Flask:
     app = SupersetApp(__name__)
+    app.wsgi_app = DispatcherMiddleware(
+        Response('Not Found', status=404),
+        {"/dash": app.wsgi_app}
+    )
 
     try:
         # Allow user to override our config completely
