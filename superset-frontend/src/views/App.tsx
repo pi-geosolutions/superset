@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+declare let __webpack_public_path__;
+
 import { Suspense, useEffect } from 'react';
 import { hot } from 'react-hot-loader/root';
 import {
@@ -68,9 +70,12 @@ const LocationPathnameLogger = () => {
   }, [location.pathname]);
   return <></>;
 };
+const bp = bootstrapData.common.conf["PATH_PREFIX"] ? bootstrapData.common.conf["PATH_PREFIX"] : BASE_PATH ;
+__webpack_public_path__ = bp +"static/assets/";
+console.log("webpack public path: " +__webpack_public_path__);
 
 const App = () => (
-  <Router basename={`${BASE_PATH}`}>
+  <Router basename={`${bp}`}>
     <ScrollToTop />
     <LocationPathnameLogger />
     <RootContextProviders>

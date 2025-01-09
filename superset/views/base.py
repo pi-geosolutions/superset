@@ -325,6 +325,9 @@ def cached_common_bootstrap_data(  # pylint: disable=unused-argument
             ReportRecipientType.EMAIL,
         ]
 
+    # Provide frontend the path prefix of the application
+    frontend_config["PATH_PREFIX"] = os.environ.get("SCRIPT_NAME", "")
+
     # verify client has google sheets installed
     available_specs = get_available_engine_specs()
     frontend_config["HAS_GSHEETS_INSTALLED"] = bool(available_specs[GSheetsEngineSpec])

@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+declare let __webpack_public_path__;
 import { setConfig as setHotLoaderConfig } from 'react-hot-loader';
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 import moment from 'moment';
@@ -53,8 +55,14 @@ if (typeof window !== 'undefined') {
 // Configure feature flags
 initFeatureFlags(bootstrapData.common.feature_flags);
 
+
+// console.log("preamble.ts")
+// console.log(bootstrapData.common.conf["PATH_PREFIX"])
+const bp = bootstrapData.common.conf["PATH_PREFIX"] ? bootstrapData.common.conf["PATH_PREFIX"] : BASE_PATH ;
+__webpack_public_path__ = bp +"static/assets/";
+console.log("webpack public path: " +__webpack_public_path__);
 // Setup SupersetClient
-setupClient({ basePath: BASE_PATH });
+setupClient({ basePath: bp });
 
 setupColors(
   bootstrapData.common.extra_categorical_color_schemes,

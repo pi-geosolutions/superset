@@ -17,8 +17,12 @@
  * under the License.
  */
 import { BASE_PATH } from 'src/constants';
+import getBootstrapData from './getBootstrapData';
 
-const STARTS_WITH_BASE_PATH_RE = new RegExp(`^${BASE_PATH}`, '');
+
+const bootstrapData = getBootstrapData();
+const bp = bootstrapData.common.conf["PATH_PREFIX"] ? bootstrapData.common.conf["PATH_PREFIX"] : BASE_PATH
+const STARTS_WITH_BASE_PATH_RE = new RegExp(`^${bp}`, '');
 
 /**
  * Takes a string path to a resource and prefixes it with the BASE_PATH that is
@@ -26,7 +30,7 @@ const STARTS_WITH_BASE_PATH_RE = new RegExp(`^${BASE_PATH}`, '');
  * @param path A string path to a resource
  */
 export function ensureBasePath(path: string): string {
-  return `${BASE_PATH}${path.startsWith('/') ? path : `/${path}`}`;
+  return `${bp}${path.startsWith('/') ? path : `/${path}`}`;
 }
 
 /**
